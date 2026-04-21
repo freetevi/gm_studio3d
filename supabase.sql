@@ -44,3 +44,48 @@ for delete
 to authenticated
 using ((auth.jwt() ->> 'email') = 'gmstudio3d@gmail.com');
 
+-- 6) Storage para imagens do catalogo
+insert into storage.buckets (id, name, public)
+values ('catalogo', 'catalogo', true)
+on conflict (id) do nothing;
+
+drop policy if exists "catalogo_public_read" on storage.objects;
+create policy "catalogo_public_read"
+on storage.objects
+for select
+using (bucket_id = 'catalogo');
+
+drop policy if exists "catalogo_insert_admin_only" on storage.objects;
+create policy "catalogo_insert_admin_only"
+on storage.objects
+for insert
+to authenticated
+with check (
+  bucket_id = 'catalogo'
+  and (auth.jwt() ->> 'email') = 'gmstudio3d@gmail.com'
+);
+
+drop policy if exists "catalogo_update_admin_only" on storage.objects;
+create policy "catalogo_update_admin_only"
+on storage.objects
+for update
+to authenticated
+using (
+  bucket_id = 'catalogo'
+  and (auth.jwt() ->> 'email') = 'gmstudio3d@gmail.com'
+)
+with check (
+  bucket_id = 'catalogo'
+  and (auth.jwt() ->> 'email') = 'gmstudio3d@gmail.com'
+);
+
+drop policy if exists "catalogo_delete_admin_only" on storage.objects;
+create policy "catalogo_delete_admin_only"
+on storage.objects
+for delete
+to authenticated
+using (
+  bucket_id = 'catalogo'
+  and (auth.jwt() ->> 'email') = 'gmstudio3d@gmail.com'
+);
+

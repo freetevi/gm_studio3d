@@ -9,6 +9,7 @@ const loginMessage = document.getElementById("login-message");
 const itemForm = document.getElementById("item-form");
 const itemCategory = document.getElementById("item-category");
 const itemTitle = document.getElementById("item-title");
+const itemFile = document.getElementById("item-file");
 const itemImage = document.getElementById("item-image");
 const itemMessage = document.getElementById("item-message");
 
@@ -74,8 +75,40 @@ itemForm.addEventListener("submit", async (event) => {
     image_url: itemImage.value.trim()
   };
 
-  if (!payload.category || !payload.title || !payload.image_url) {
-    itemMessage.textContent = "Preencha todos os campos.";
+  if (!payload.category || !payload.title) {
+    itemMessage.textContent = "Preencha categoria e nome.";
+    return;
+  }
+
+  const selectedFile = itemFile.files?.[0];
+  if (!payload.image_url && !selectedFile) {
+    itemMessage.textContent = "Envie um arquivo ou informe uma URL da imagem.";
+    return;
+  }
+
+  if (selectedFile) {
+    const ext = (selectedFile.name.split(".").pop() || "jpg").toLowerCase();
+    const safeCategory = payload.category.replace(/[^a-z0-9-]/gi, "");
+    const fileName = `${safeCategory}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error: uploadError } = await window.sb.storage
+      .from("catalogo")
+      .upload(fileName, selectedFile, {
+        cacheControl: "3600",
+        upsert: false
+      });
+
+    if (uploadError) {
+      itemMessage.textContent = uploadError.message || "Falha ao enviar imagem.";
+      return;
+    }
+
+    const { data: publicData } = window.sb.storage.from("catalogo").getPublicUrl(fileName);
+    payload.image_url = publicData?.publicUrl || "";
+  }
+
+  if (!payload.image_url) {
+    itemMessage.textContent = "Nao foi possivel obter URL da imagem.";
     return;
   }
 
@@ -88,6 +121,7 @@ itemForm.addEventListener("submit", async (event) => {
 
   itemTitle.value = "";
   itemImage.value = "";
+  itemFile.value = "";
   itemMessage.textContent = "Item salvo com sucesso.";
 });
 

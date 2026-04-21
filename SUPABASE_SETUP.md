@@ -1,7 +1,7 @@
 ﻿# Setup Supabase (GitHub Pages)
 
 1. Crie um projeto no Supabase.
-2. No painel SQL Editor, rode o arquivo `supabase.sql`.
+2. No painel SQL Editor, rode o arquivo `supabase.sql` (inclui tabela + policies + bucket de imagens).
 3. Em Auth > Users, crie seu usuario admin (email + senha).
 4. Em Auth > Providers, deixe `Email` ativo e desative signup publico se quiser.
 5. Copie `Project URL` e `anon public key`.
@@ -13,6 +13,10 @@
 - Admin: `/admin.html`
 - Site: `index.html`
 - Galeria por categoria: `catalog.html?cat=action-figure`
+
+No admin:
+- voce pode enviar imagem por upload direto (arquivo), ou
+- colar URL manual da imagem.
 
 ## Importante
 - `server.js` nao e necessario para GitHub Pages.

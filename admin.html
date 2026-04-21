@@ -46,14 +46,17 @@
         <label>Nome do item</label>
         <input id="item-title" type="text" placeholder="Ex.: Figure Dragon Slayer" required />
 
-        <label>Imagem (URL ou nome de arquivo local)</label>
-        <input id="item-image" type="text" placeholder="Ex.: ./minha-peca.jpg" required />
+        <label>Imagem (upload direto)</label>
+        <input id="item-file" type="file" accept="image/*" />
+
+        <label>Ou imagem por URL (opcional)</label>
+        <input id="item-image" type="text" placeholder="Ex.: https://meusite.com/minha-peca.jpg" />
 
         <button class="btn btn-main" type="submit">Salvar Item</button>
       </form>
 
       <p id="item-message" class="admin-message"></p>
-      <p class="admin-tip">Dica: para imagem local, coloque o arquivo dentro da pasta do projeto e use o nome exato (ex.: <code>minha-peca.jpg</code>).</p>
+      <p class="admin-tip">Dica: no upload, a imagem sobe para o bucket <code>catalogo</code> no Supabase Storage automaticamente.</p>
     </section>
   </main>
 
