@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeria | Studio3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-text">Studio3D</span>
+      </a>
+      <nav>
+        <a href="index.html#servicos">Servicos</a>
+        <a href="index.html#portfolio">Portfolio</a>
+        <a href="index.html#processo">Processo</a>
+        <a href="index.html#contato">Contato</a>
+      </nav>
+      <a class="topbar-action" href="index.html">Voltar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="catalog reveal is-visible">
+      <div class="title-row">
+        <p class="tag">Galeria da Categoria</p>
+        <h2 id="catalog-title">Carregando...</h2>
+        <p id="catalog-subtitle" class="catalog-subtitle">Modelos da categoria selecionada.</p>
+      </div>
+      <div id="catalog-grid" class="catalog-grid"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.config.js"></script>
+  <script src="catalog.js"></script>
+</body>
+</html>

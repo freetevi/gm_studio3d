@@ -2,7 +2,7 @@
 const panelCard = document.getElementById("panel-card");
 
 const loginForm = document.getElementById("login-form");
-const loginUsername = document.getElementById("login-username");
+const loginEmail = document.getElementById("login-email");
 const loginPassword = document.getElementById("login-password");
 const loginMessage = document.getElementById("login-message");
 
@@ -20,74 +20,81 @@ function setLoggedInUI(loggedIn) {
 }
 
 async function checkSession() {
-  try {
-    const response = await fetch("/api/admin/me", { credentials: "include" });
-    setLoggedInUI(response.ok);
-  } catch {
+  if (!window.sb) {
+    loginMessage.textContent = "Configure o Supabase em supabase.config.js";
     setLoggedInUI(false);
+    return;
   }
+
+  const { data, error } = await window.sb.auth.getSession();
+  if (error) {
+    loginMessage.textContent = "Erro ao validar sessao.";
+    setLoggedInUI(false);
+    return;
+  }
+
+  setLoggedInUI(Boolean(data.session));
 }
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   loginMessage.textContent = "";
 
-  try {
-    const response = await fetch("/api/admin/login", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: loginUsername.value.trim(),
-        password: loginPassword.value
-      })
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      loginMessage.textContent = result.message || "Falha no login.";
-      return;
-    }
-
-    loginPassword.value = "";
-    setLoggedInUI(true);
-  } catch {
-    loginMessage.textContent = "Erro de conexao no login.";
+  if (!window.sb) {
+    loginMessage.textContent = "Supabase nao configurado.";
+    return;
   }
+
+  const { error } = await window.sb.auth.signInWithPassword({
+    email: loginEmail.value.trim(),
+    password: loginPassword.value
+  });
+
+  if (error) {
+    loginMessage.textContent = error.message || "Falha no login.";
+    return;
+  }
+
+  loginPassword.value = "";
+  setLoggedInUI(true);
 });
 
 itemForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   itemMessage.textContent = "";
 
-  try {
-    const response = await fetch("/api/admin/items", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        category: itemCategory.value,
-        title: itemTitle.value.trim(),
-        image: itemImage.value.trim()
-      })
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      itemMessage.textContent = result.message || "Nao foi possivel salvar.";
-      return;
-    }
-
-    itemTitle.value = "";
-    itemImage.value = "";
-    itemMessage.textContent = "Item salvo com sucesso.";
-  } catch {
-    itemMessage.textContent = "Erro de conexao ao salvar item.";
+  if (!window.sb) {
+    itemMessage.textContent = "Supabase nao configurado.";
+    return;
   }
+
+  const payload = {
+    category: itemCategory.value,
+    title: itemTitle.value.trim(),
+    image_url: itemImage.value.trim()
+  };
+
+  if (!payload.category || !payload.title || !payload.image_url) {
+    itemMessage.textContent = "Preencha todos os campos.";
+    return;
+  }
+
+  const { error } = await window.sb.from("catalog_items").insert(payload);
+
+  if (error) {
+    itemMessage.textContent = error.message || "Nao foi possivel salvar.";
+    return;
+  }
+
+  itemTitle.value = "";
+  itemImage.value = "";
+  itemMessage.textContent = "Item salvo com sucesso.";
 });
 
 logoutBtn.addEventListener("click", async () => {
-  await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
+  if (window.sb) {
+    await window.sb.auth.signOut();
+  }
   setLoggedInUI(false);
 });
 

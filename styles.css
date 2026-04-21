@@ -299,6 +299,9 @@ main {
 
 .case-card {
   position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
   border-radius: 26px;
   min-height: 188px;
   padding: 7.4rem 0.75rem 0.9rem;

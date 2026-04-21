@@ -8,8 +8,8 @@ const ROOT = __dirname;
 const DATA_FILE = path.join(ROOT, "data", "catalog.json");
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "gmadmin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "troque-essa-senha";
-const SESSION_SECRET = process.env.SESSION_SECRET || "troque-esse-secret";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "gmstudio";
+const SESSION_SECRET = process.env.SESSION_SECRET || "A9x!vP2#kLm8$QwR7zT1nY4@cD5fG";
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
