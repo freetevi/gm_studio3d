@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Studio3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <main class="admin-main">
+    <section id="login-card" class="admin-card">
+      <h1>Painel Admin Studio3D</h1>
+      <p>Somente voce deve acessar esta area.</p>
+      <form id="login-form" class="admin-form">
+        <label>Usuario</label>
+        <input id="login-username" type="text" autocomplete="username" required />
+        <label>Senha</label>
+        <input id="login-password" type="password" autocomplete="current-password" required />
+        <button class="btn btn-main" type="submit">Entrar</button>
+      </form>
+      <p id="login-message" class="admin-message"></p>
+    </section>
+
+    <section id="panel-card" class="admin-card hidden">
+      <div class="admin-header">
+        <h2>Adicionar Item</h2>
+        <button id="logout-btn" class="btn btn-ghost" type="button">Sair</button>
+      </div>
+
+      <form id="item-form" class="admin-form">
+        <label>Categoria</label>
+        <select id="item-category" required>
+          <option value="action-figure">Action Figure</option>
+          <option value="chaveiros">Chaveiros</option>
+          <option value="articulados">Modelos Articulados</option>
+          <option value="interiores">Design de Interiores</option>
+          <option value="luminarias">Luminarias</option>
+          <option value="organizadores">Organizadores</option>
+        </select>
+
+        <label>Nome do item</label>
+        <input id="item-title" type="text" placeholder="Ex.: Figure Dragon Slayer" required />
+
+        <label>Imagem (URL ou nome de arquivo local)</label>
+        <input id="item-image" type="text" placeholder="Ex.: ./minha-peca.jpg" required />
+
+        <button class="btn btn-main" type="submit">Salvar Item</button>
+      </form>
+
+      <p id="item-message" class="admin-message"></p>
+      <p class="admin-tip">Dica: para imagem local, coloque o arquivo dentro da pasta do projeto e use o nome exato (ex.: <code>minha-peca.jpg</code>).</p>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

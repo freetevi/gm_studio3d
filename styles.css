@@ -300,12 +300,13 @@ main {
 .case-card {
   position: relative;
   border-radius: 26px;
-  min-height: 132px;
-  padding: 5.1rem 0.85rem 1rem;
+  min-height: 188px;
+  padding: 7.4rem 0.75rem 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 28px rgba(0, 0, 0, 0.32);
   overflow: hidden;
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  cursor: pointer;
 }
 
 .case-card::before {
@@ -319,10 +320,10 @@ main {
 .case-card img {
   position: absolute;
   left: 50%;
-  bottom: 42px;
+  bottom: 44px;
   transform: translateX(-50%);
-  width: 108px;
-  height: 108px;
+  width: 122px;
+  height: 122px;
   object-fit: cover;
   border-radius: 18px;
   border: 2px solid rgba(255, 255, 255, 0.32);
@@ -332,9 +333,18 @@ main {
 
 .case-card h3 {
   margin: 0;
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.55rem;
   text-align: center;
   font-family: "Sora", sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.08;
+  min-height: 2.2em;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   letter-spacing: -0.02em;
   color: #edf2ff;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
@@ -344,6 +354,11 @@ main {
   transform: translateY(-8px);
   border-color: rgba(184, 247, 90, 0.5);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 18px 36px rgba(0, 0, 0, 0.45), 0 0 22px rgba(184, 247, 90, 0.12);
+}
+
+.case-card.is-active {
+  border-color: rgba(184, 247, 90, 0.62);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 16px 30px rgba(0, 0, 0, 0.45), 0 0 26px rgba(184, 247, 90, 0.22);
 }
 
 .case-card:hover img {
@@ -358,6 +373,43 @@ main {
 .tone-d { background: linear-gradient(165deg, #1d2f3d, #275f75); }
 .tone-e { background: linear-gradient(165deg, #2c2643, #5a3f6f); }
 .tone-f { background: linear-gradient(165deg, #31262a, #5f474d); }
+
+.catalog {
+  margin: 2.2rem 0 2.6rem;
+}
+
+.catalog-subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.catalog-grid {
+  margin-top: 1.1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.catalog-item {
+  margin: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(12, 14, 21, 0.9);
+}
+
+.catalog-item img {
+  display: block;
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+.catalog-item figcaption {
+  padding: 0.7rem 0.85rem;
+  color: #eaf0ff;
+  font-weight: 600;
+}
 
 .services,
 .steps {
@@ -507,10 +559,84 @@ footer {
     gap: 0.9rem;
   }
 
+  .case-card {
+    min-height: 170px;
+    padding-top: 6.8rem;
+  }
+
+  .case-card img {
+    width: 112px;
+    height: 112px;
+    bottom: 42px;
+  }
+
   .portfolio .grid,
+  .catalog-grid,
   .services,
   .steps {
     grid-template-columns: 1fr;
   }
 }
 
+.admin-main {
+  width: min(720px, calc(100% - 2rem));
+  margin: 2.6rem auto;
+}
+
+.admin-card {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(13, 16, 25, 0.9);
+  padding: 1.2rem;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+}
+
+.admin-card h1,
+.admin-card h2 {
+  margin-top: 0;
+  font-family: "Sora", sans-serif;
+}
+
+.admin-form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #edf2ff;
+  padding: 0.65rem 0.75rem;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+  outline: 1px solid rgba(184, 247, 90, 0.55);
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.admin-message {
+  margin-top: 0.85rem;
+  color: #d6ff97;
+  min-height: 1.2em;
+}
+
+.admin-tip {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.hidden {
+  display: none;
+}
