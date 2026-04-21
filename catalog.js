@@ -31,6 +31,15 @@ function renderItems(items) {
       <img src="${item.image}" alt="${item.label}" loading="lazy" />
       <figcaption>${item.label}</figcaption>
     `;
+
+    const img = figure.querySelector("img");
+    img.addEventListener("load", () => {
+      const ratio = img.naturalWidth / Math.max(1, img.naturalHeight);
+      if (ratio < 0.78 || ratio > 1.9) {
+        img.classList.add("fit-contain");
+      }
+    });
+
     catalogGrid.appendChild(figure);
   });
 }
