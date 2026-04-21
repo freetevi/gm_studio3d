@@ -28,15 +28,16 @@ function renderItems(items) {
     const figure = document.createElement("figure");
     figure.className = "catalog-item";
     const y = Number(item.positionY ?? 20);
+    const zoom = Number(item.zoomPct ?? 100);
     figure.innerHTML = `
-      <img src="${item.image}" alt="${item.label}" loading="lazy" style="object-position:center ${y}%;" />
+      <img src="${item.image}" alt="${item.label}" loading="lazy" style="object-position:center ${y}%; transform:scale(${zoom / 100});" />
       <figcaption>${item.label}</figcaption>
     `;
 
     const img = figure.querySelector("img");
     img.addEventListener("load", () => {
       const ratio = img.naturalWidth / Math.max(1, img.naturalHeight);
-      if (ratio < 0.58 || ratio > 2.35) {
+      if (ratio < 0.78 || ratio > 1.9) {
         img.classList.add("fit-contain");
       }
     });
@@ -55,7 +56,7 @@ async function loadCatalog() {
 
   const { data, error } = await window.sb
     .from("catalog_items")
-    .select("title, image_url, position_y")
+    .select("title, image_url, position_y, zoom_pct")
     .eq("category", category)
     .order("created_at", { ascending: false });
 
@@ -67,7 +68,8 @@ async function loadCatalog() {
   const normalized = (data || []).map((item) => ({
     label: item.title,
     image: item.image_url,
-    positionY: item.position_y
+    positionY: item.position_y,
+    zoomPct: item.zoom_pct
   }));
 
   renderItems(normalized);

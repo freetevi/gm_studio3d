@@ -407,14 +407,13 @@ main {
   height: 230px;
   object-fit: cover;
   object-position: center 20%;
+  transform-origin: center center;
   background: linear-gradient(160deg, #0b0f18, #12182a);
 }
 
 .catalog-item img.fit-contain {
   object-fit: contain;
-  padding: 0;
-  transform: scale(1.12);
-  transform-origin: center;
+  padding: 0.35rem;
 }
 
 .catalog-item figcaption {
@@ -677,6 +676,7 @@ footer {
   height: 220px;
   object-fit: cover;
   object-position: center 20%;
+  transform-origin: center center;
 }
 
 .hidden {

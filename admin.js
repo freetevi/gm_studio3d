@@ -13,6 +13,8 @@ const itemFile = document.getElementById("item-file");
 const itemImage = document.getElementById("item-image");
 const itemPosition = document.getElementById("item-position");
 const itemPositionText = document.getElementById("item-position-text");
+const itemZoom = document.getElementById("item-zoom");
+const itemZoomText = document.getElementById("item-zoom-text");
 const itemPreviewImage = document.getElementById("item-preview-image");
 const itemMessage = document.getElementById("item-message");
 
@@ -23,6 +25,12 @@ function updatePreviewPosition() {
   const y = Number(itemPosition.value || 20);
   itemPreviewImage.style.objectPosition = `center ${y}%`;
   itemPositionText.textContent = `Posicao atual: ${y}%`;
+}
+
+function updatePreviewZoom() {
+  const zoom = Number(itemZoom.value || 100);
+  itemPreviewImage.style.transform = `scale(${zoom / 100})`;
+  itemZoomText.textContent = `Zoom atual: ${zoom}%`;
 }
 
 function setPreviewSource(src) {
@@ -79,6 +87,7 @@ loginForm.addEventListener("submit", async (event) => {
 });
 
 itemPosition.addEventListener("input", updatePreviewPosition);
+itemZoom.addEventListener("input", updatePreviewZoom);
 
 itemFile.addEventListener("change", () => {
   if (localPreviewUrl) {
@@ -109,7 +118,8 @@ itemForm.addEventListener("submit", async (event) => {
     category: itemCategory.value,
     title: itemTitle.value.trim(),
     image_url: itemImage.value.trim(),
-    position_y: Number(itemPosition.value || 20)
+    position_y: Number(itemPosition.value || 20),
+    zoom_pct: Number(itemZoom.value || 100)
   };
 
   if (!payload.category || !payload.title) {
@@ -160,7 +170,9 @@ itemForm.addEventListener("submit", async (event) => {
   itemImage.value = "";
   itemFile.value = "";
   itemPosition.value = "20";
+  itemZoom.value = "100";
   updatePreviewPosition();
+  updatePreviewZoom();
   setPreviewSource("");
   if (localPreviewUrl) {
     URL.revokeObjectURL(localPreviewUrl);
@@ -178,3 +190,4 @@ logoutBtn.addEventListener("click", async () => {
 
 checkSession();
 updatePreviewPosition();
+updatePreviewZoom();
