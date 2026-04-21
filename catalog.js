@@ -27,15 +27,16 @@ function renderItems(items) {
   items.forEach((item) => {
     const figure = document.createElement("figure");
     figure.className = "catalog-item";
+    const y = Number(item.positionY ?? 20);
     figure.innerHTML = `
-      <img src="${item.image}" alt="${item.label}" loading="lazy" />
+      <img src="${item.image}" alt="${item.label}" loading="lazy" style="object-position:center ${y}%;" />
       <figcaption>${item.label}</figcaption>
     `;
 
     const img = figure.querySelector("img");
     img.addEventListener("load", () => {
       const ratio = img.naturalWidth / Math.max(1, img.naturalHeight);
-      if (ratio < 0.78 || ratio > 1.9) {
+      if (ratio < 0.58 || ratio > 2.35) {
         img.classList.add("fit-contain");
       }
     });
@@ -54,7 +55,7 @@ async function loadCatalog() {
 
   const { data, error } = await window.sb
     .from("catalog_items")
-    .select("title, image_url")
+    .select("title, image_url, position_y")
     .eq("category", category)
     .order("created_at", { ascending: false });
 
@@ -65,7 +66,8 @@ async function loadCatalog() {
 
   const normalized = (data || []).map((item) => ({
     label: item.title,
-    image: item.image_url
+    image: item.image_url,
+    positionY: item.position_y
   }));
 
   renderItems(normalized);

@@ -2,6 +2,7 @@
 
 1. Crie um projeto no Supabase.
 2. No painel SQL Editor, rode o arquivo `supabase.sql` (inclui tabela + policies + bucket de imagens).
+Se ja tinha rodado antes, rode novamente para adicionar a coluna `position_y`.
 3. Em Auth > Users, crie seu usuario admin (email + senha).
 4. Em Auth > Providers, deixe `Email` ativo e desative signup publico se quiser.
 5. Copie `Project URL` e `anon public key`.

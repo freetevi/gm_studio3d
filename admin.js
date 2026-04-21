@@ -11,9 +11,27 @@ const itemCategory = document.getElementById("item-category");
 const itemTitle = document.getElementById("item-title");
 const itemFile = document.getElementById("item-file");
 const itemImage = document.getElementById("item-image");
+const itemPosition = document.getElementById("item-position");
+const itemPositionText = document.getElementById("item-position-text");
+const itemPreviewImage = document.getElementById("item-preview-image");
 const itemMessage = document.getElementById("item-message");
 
 const logoutBtn = document.getElementById("logout-btn");
+let localPreviewUrl = "";
+
+function updatePreviewPosition() {
+  const y = Number(itemPosition.value || 20);
+  itemPreviewImage.style.objectPosition = `center ${y}%`;
+  itemPositionText.textContent = `Posicao atual: ${y}%`;
+}
+
+function setPreviewSource(src) {
+  if (!src) {
+    itemPreviewImage.removeAttribute("src");
+    return;
+  }
+  itemPreviewImage.src = src;
+}
 
 function setLoggedInUI(loggedIn) {
   loginCard.classList.toggle("hidden", loggedIn);
@@ -60,6 +78,24 @@ loginForm.addEventListener("submit", async (event) => {
   setLoggedInUI(true);
 });
 
+itemPosition.addEventListener("input", updatePreviewPosition);
+
+itemFile.addEventListener("change", () => {
+  if (localPreviewUrl) {
+    URL.revokeObjectURL(localPreviewUrl);
+    localPreviewUrl = "";
+  }
+  const selectedFile = itemFile.files?.[0];
+  if (!selectedFile) return;
+  localPreviewUrl = URL.createObjectURL(selectedFile);
+  setPreviewSource(localPreviewUrl);
+});
+
+itemImage.addEventListener("input", () => {
+  const url = itemImage.value.trim();
+  if (url) setPreviewSource(url);
+});
+
 itemForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   itemMessage.textContent = "";
@@ -72,7 +108,8 @@ itemForm.addEventListener("submit", async (event) => {
   const payload = {
     category: itemCategory.value,
     title: itemTitle.value.trim(),
-    image_url: itemImage.value.trim()
+    image_url: itemImage.value.trim(),
+    position_y: Number(itemPosition.value || 20)
   };
 
   if (!payload.category || !payload.title) {
@@ -122,6 +159,13 @@ itemForm.addEventListener("submit", async (event) => {
   itemTitle.value = "";
   itemImage.value = "";
   itemFile.value = "";
+  itemPosition.value = "20";
+  updatePreviewPosition();
+  setPreviewSource("");
+  if (localPreviewUrl) {
+    URL.revokeObjectURL(localPreviewUrl);
+    localPreviewUrl = "";
+  }
   itemMessage.textContent = "Item salvo com sucesso.";
 });
 
@@ -133,3 +177,4 @@ logoutBtn.addEventListener("click", async () => {
 });
 
 checkSession();
+updatePreviewPosition();

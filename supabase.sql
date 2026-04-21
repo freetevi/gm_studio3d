@@ -4,8 +4,12 @@ create table if not exists public.catalog_items (
   category text not null,
   title text not null,
   image_url text not null,
+  position_y integer not null default 20,
   created_at timestamp with time zone not null default now()
 );
+
+alter table public.catalog_items
+add column if not exists position_y integer not null default 20;
 
 -- 2) RLS ligado
 alter table public.catalog_items enable row level security;

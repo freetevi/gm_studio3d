@@ -52,6 +52,16 @@
         <label>Ou imagem por URL (opcional)</label>
         <input id="item-image" type="text" placeholder="Ex.: https://meusite.com/minha-peca.jpg" />
 
+        <div class="preview-wrap">
+          <p class="preview-label">Preview de enquadramento</p>
+          <div class="preview-card">
+            <img id="item-preview-image" alt="Preview da imagem" />
+          </div>
+          <label for="item-position">Ajuste vertical da imagem</label>
+          <input id="item-position" type="range" min="0" max="100" value="20" />
+          <p id="item-position-text" class="admin-tip">Posicao atual: 20%</p>
+        </div>
+
         <button class="btn btn-main" type="submit">Salvar Item</button>
       </form>
 
